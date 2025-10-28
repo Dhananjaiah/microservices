@@ -64,6 +64,8 @@ Build a production-like app with:
 
 ### Quick Reference Materials
 
+- **YAML Examples**: [`course/yaml-examples/`](course/yaml-examples/) - 40 complete YAML files with 2-line descriptions
+- **YAML Index**: [`course/YAML-EXAMPLES-INDEX.md`](course/YAML-EXAMPLES-INDEX.md) - Quick reference table of all examples
 - **kubectl Cheatsheet**: [`cheatsheets/kubectl-cheatsheet.md`](cheatsheets/kubectl-cheatsheet.md) - 100+ commands
 - **YAML Snippets**: [`cheatsheets/yaml-snippets.md`](cheatsheets/yaml-snippets.md) - Ready-to-use templates
 - **Troubleshooting Guide**: [`cheatsheets/troubleshooting-checklist.md`](cheatsheets/troubleshooting-checklist.md) - Systematic debugging
@@ -217,6 +219,7 @@ Test your knowledge with realistic CKA-style exams:
 ### Included in This Course
 - 📚 12 comprehensive modules
 - 💻 FoodCart hands-on project
+- 📄 40 complete YAML examples with descriptions
 - 📝 3 quick reference cheatsheets
 - ✅ 2 complete mock exams with solutions
 - 🔧 SRE troubleshooting runbook
