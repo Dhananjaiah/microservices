@@ -1,0 +1,18 @@
+# Exam Practice: Pod with Storage
+# Busybox pod using PVC for CKA storage practice drill
+#
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-pvc
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    volumeMounts:
+    - name: storage
+      mountPath: /data
+  volumes:
+  - name: storage
+    persistentVolumeClaim:
+      claimName: pvc1

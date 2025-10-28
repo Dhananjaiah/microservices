@@ -1,0 +1,12 @@
+# Pod with ServiceAccount
+# Creates pod that uses custom service account for API authentication
+#
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app
+spec:
+  serviceAccountName: app-sa
+  containers:
+  - name: nginx
+    image: nginx

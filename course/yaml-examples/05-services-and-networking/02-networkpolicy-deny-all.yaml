@@ -1,0 +1,11 @@
+# Deny All Ingress Traffic
+# Blocks all incoming traffic to pods in the namespace by default
+#
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress

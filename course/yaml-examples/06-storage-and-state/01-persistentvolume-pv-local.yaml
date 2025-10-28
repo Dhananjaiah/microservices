@@ -1,0 +1,15 @@
+# Local PersistentVolume
+# Creates a 1Gi storage volume using local hostPath for development
+#
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-local
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/mnt/data"

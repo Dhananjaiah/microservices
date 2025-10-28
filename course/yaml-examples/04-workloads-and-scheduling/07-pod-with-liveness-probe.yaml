@@ -1,0 +1,19 @@
+# Pod with Liveness Probe
+# Restarts container if HTTP health check fails on /healthz endpoint
+#
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-liveness
+spec:
+  containers:
+  - name: app
+    image: nginx
+    ports:
+    - containerPort: 8080
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+      initialDelaySeconds: 3
+      periodSeconds: 3
