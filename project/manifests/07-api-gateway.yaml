@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  namespace: foodcart
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+      - name: api-gateway
+        image: nginx:1.25-alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: api-gateway-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-gateway-config
+  namespace: foodcart
+data:
+  nginx.conf: |
+    events {
+        worker_connections 1024;
+    }
+    http {
+        upstream menu {
+            server menu-service:8080;
+        }
+        upstream orders {
+            server orders-service:8080;
+        }
+        upstream payments {
+            server payments-service:8080;
+        }
+        server {
+            listen 80;
+            location /health {
+                return 200 "OK\n";
+                add_header Content-Type text/plain;
+            }
+            location /api/menu {
+                proxy_pass http://menu/;
+            }
+            location /api/orders {
+                proxy_pass http://orders/;
+            }
+            location /api/payments {
+                proxy_pass http://payments/;
+            }
+        }
+    }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+  namespace: foodcart
+spec:
+  selector:
+    app: api-gateway
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
