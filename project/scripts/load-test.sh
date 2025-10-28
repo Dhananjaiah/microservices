@@ -38,7 +38,7 @@ metadata:
 spec:
   containers:
   - name: load-test
-    image: williamyeh/hey:latest
+    image: williamyeh/hey:0.1.4
     command: ["sleep", "infinity"]
   restartPolicy: Never
 EOF

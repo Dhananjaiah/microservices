@@ -101,7 +101,7 @@ function cordon_node() {
     echo "🔴 Chaos: Cordoning a node..."
     
     # Get a random worker node
-    NODE=$(kubectl get nodes -l node-role.kubernetes.io/control-plane!= -o name | head -1)
+    NODE=$(kubectl get nodes -l '!node-role.kubernetes.io/control-plane' -o name | head -1)
     
     if [ -z "$NODE" ]; then
         echo "❌ No worker nodes found"
