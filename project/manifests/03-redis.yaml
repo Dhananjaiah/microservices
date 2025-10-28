@@ -1,36 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: menu
+  name: redis
   namespace: foodcart
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: menu
-      role: backend
+      app: redis
   template:
     metadata:
       labels:
-        app: menu
-        role: backend
+        app: redis
     spec:
       containers:
-      - name: menu
-        image: python:3.11-slim
-        command: ["python", "-m", "http.server", "8080"]
+      - name: redis
+        image: redis:7-alpine
         ports:
-        - containerPort: 8080
+        - containerPort: 6379
         livenessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 10
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 15
           periodSeconds: 10
         readinessProbe:
-          httpGet:
-            path: /
-            port: 8080
+          exec:
+            command:
+            - redis-cli
+            - ping
           initialDelaySeconds: 5
           periodSeconds: 5
         resources:
@@ -44,12 +41,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: menu-service
+  name: redis
   namespace: foodcart
 spec:
   selector:
-    app: menu
+    app: redis
   ports:
   - protocol: TCP
-    port: 8080
-    targetPort: 8080
+    port: 6379
+    targetPort: 6379

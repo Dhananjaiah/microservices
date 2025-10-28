@@ -1,0 +1,160 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: foodcart
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: nginx:1.25-alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: frontend-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        - name: html
+          mountPath: /usr/share/nginx/html
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+      volumes:
+      - name: frontend-config
+        configMap:
+          name: frontend-config
+      - name: html
+        configMap:
+          name: frontend-html
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: foodcart
+data:
+  nginx.conf: |
+    events {
+        worker_connections 1024;
+    }
+    http {
+        server {
+            listen 80;
+            location / {
+                root /usr/share/nginx/html;
+                index index.html;
+            }
+            location /api/ {
+                proxy_pass http://api-gateway/api/;
+            }
+        }
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-html
+  namespace: foodcart
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>FoodCart - Order Your Favorite Food</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: 800px;
+                margin: 50px auto;
+                padding: 20px;
+                background-color: #f5f5f5;
+            }
+            h1 {
+                color: #2c3e50;
+                text-align: center;
+            }
+            .container {
+                background: white;
+                padding: 30px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .status {
+                padding: 10px;
+                margin: 10px 0;
+                border-radius: 4px;
+                background-color: #e8f5e9;
+                color: #2e7d32;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🍕 FoodCart</h1>
+            <h2>Welcome to FoodCart!</h2>
+            <p>This is a demo application for CKA exam preparation.</p>
+            <div class="status">
+                ✅ Frontend is running
+            </div>
+            <h3>Architecture:</h3>
+            <ul>
+                <li>Frontend (nginx)</li>
+                <li>API Gateway (nginx reverse proxy)</li>
+                <li>Menu Service (Python)</li>
+                <li>Orders Service (Python)</li>
+                <li>Payments Service (Python)</li>
+                <li>PostgreSQL Database (StatefulSet)</li>
+                <li>Redis Cache</li>
+            </ul>
+            <h3>Kubernetes Features Demonstrated:</h3>
+            <ul>
+                <li>Deployments & StatefulSets</li>
+                <li>Services & Ingress</li>
+                <li>ConfigMaps & Secrets</li>
+                <li>PersistentVolumes</li>
+                <li>HorizontalPodAutoscaler</li>
+                <li>PodDisruptionBudget</li>
+                <li>NetworkPolicies</li>
+            </ul>
+        </div>
+    </body>
+    </html>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: foodcart
+spec:
+  type: NodePort
+  selector:
+    app: frontend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30080
