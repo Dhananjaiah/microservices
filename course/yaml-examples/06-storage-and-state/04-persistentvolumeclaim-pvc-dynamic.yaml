@@ -1,0 +1,14 @@
+# Dynamic PVC
+# Requests storage that will be dynamically provisioned using StorageClass
+#
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-dynamic
+spec:
+  storageClassName: fast
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

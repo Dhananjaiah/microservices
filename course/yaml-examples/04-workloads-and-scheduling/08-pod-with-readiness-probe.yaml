@@ -1,0 +1,19 @@
+# Pod with Readiness Probe
+# Removes pod from service endpoints if /ready health check fails
+#
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-readiness
+spec:
+  containers:
+  - name: app
+    image: nginx
+    ports:
+    - containerPort: 8080
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 5

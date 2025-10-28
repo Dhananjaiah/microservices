@@ -1,0 +1,18 @@
+# Pod with Resource Requests and Limits
+# Requests 250m CPU and 64Mi memory, limits to 500m CPU and 128Mi memory
+#
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-resources
+spec:
+  containers:
+  - name: app
+    image: nginx
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"

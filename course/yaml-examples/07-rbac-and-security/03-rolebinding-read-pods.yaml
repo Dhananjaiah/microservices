@@ -1,0 +1,16 @@
+# RoleBinding for ServiceAccount
+# Binds pod-reader role to app-sa service account granting pod read permissions
+#
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-pods
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pod-reader
+subjects:
+- kind: ServiceAccount
+  name: app-sa
+  namespace: default
