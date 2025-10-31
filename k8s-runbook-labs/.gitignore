@@ -1,9 +1,0 @@
-# Ignore downloaded binaries
-kubeconform*
-
-# Ignore downloaded archives
-*.tar.gz
-
-# Ignore temp files
-*.tmp
-.DS_Store
