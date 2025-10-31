@@ -1,9 +1,0 @@
-# StorageClass for Dynamic Provisioning
-# Defines storage class for dynamic volume provisioning with WaitForFirstConsumer binding
-#
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: fast
-provisioner: kubernetes.io/no-provisioner
-volumeBindingMode: WaitForFirstConsumer
