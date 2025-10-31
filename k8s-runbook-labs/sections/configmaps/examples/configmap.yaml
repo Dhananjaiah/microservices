@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  LOG_LEVEL: "info"
+  DATABASE_URL: "postgresql://db:5432/myapp"
+  MAX_CONNECTIONS: "100"
+  config.json: |
+    {
+      "feature_flags": {
+        "new_ui": true,
+        "beta_features": false
+      },
+      "timeouts": {
+        "read": 30,
+        "write": 10
+      }
+    }
