@@ -8,8 +8,8 @@ spec:
   template:
     spec:
       containers:
-      - name: worker
-        image: busybox:latest
-        command: ['sh', '-c', 'echo "Working..."; sleep 5; echo "Complete"']
+        - name: worker
+          image: busybox:latest
+          command: ['sh', '-c', 'echo "Working..."; sleep 5; echo "Complete"']
       restartPolicy: Never
   backoffLimit: 4

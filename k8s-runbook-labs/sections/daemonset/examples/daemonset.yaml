@@ -14,11 +14,11 @@ spec:
         app: logger
     spec:
       containers:
-      - name: logger
-        image: fluent/fluentd:latest
-        resources:
-          limits:
-            memory: 200Mi
-          requests:
-            cpu: 100m
-            memory: 200Mi
+        - name: logger
+          image: fluent/fluentd:latest
+          resources:
+            limits:
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi

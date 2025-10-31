@@ -1,6 +1,7 @@
 # Kubernetes Runbook Labs
 
-Complete, runnable Kubernetes labs covering containers, Docker, and Kubernetes from basics to advanced topics. All labs are tested on **kind** and **minikube**.
+Complete, runnable Kubernetes labs covering containers, Docker, and Kubernetes from
+basics to advanced topics. All labs are tested on **kind** and **minikube**.
 
 ## 🎯 Project Goals
 
@@ -74,7 +75,7 @@ kubectl get nodes
 
 Each section follows a consistent pattern:
 
-```
+```text
 sections/<topic>/
 ├── README.md          # Concept overview (2-3 lines + key points)
 ├── labs/
@@ -87,6 +88,7 @@ sections/<topic>/
 ```
 
 Every lab includes:
+
 - **Goal**: What you'll learn (1-2 lines)
 - **Prereqs**: Requirements
 - **Steps**: Exact bash commands (copy-paste ready)
@@ -140,20 +142,24 @@ Same as parent repository - see [LICENSE](../LICENSE).
 
 ### Common Issues
 
-**kind cluster fails to create**
+#### kind cluster fails to create
+
 - Ensure Docker is running
 - Check ports 80/443 are not in use
 - Try: `kind delete cluster --name k8s-runbook && ./scripts/kind-up.sh`
 
-**kubectl commands fail**
+#### kubectl commands fail
+
 - Verify context: `kubectl config current-context`
 - Check cluster: `kubectl cluster-info`
 
-**Pods stuck in Pending**
+#### Pods stuck in Pending
+
 - Check nodes: `kubectl get nodes`
 - Check events: `kubectl get events --sort-by='.lastTimestamp'`
 
-**ImagePullBackOff errors**
+#### ImagePullBackOff errors
+
 - Expected in some labs demonstrating negative cases
 - Check image name spelling
 - Verify internet connectivity
@@ -167,4 +173,4 @@ Same as parent repository - see [LICENSE](../LICENSE).
 
 ---
 
-**Happy Learning! 🚀**
+Happy Learning! 🚀
