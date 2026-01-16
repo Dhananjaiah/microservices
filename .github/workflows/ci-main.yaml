@@ -34,7 +34,7 @@ jobs:
       with:
         dotnet-version: '7.0'
         include-prerelease: true
-    - uses: actions/setup-go@v3
+    - uses: actions/setup-go@v6
       with:
         go-version: '1.19'
     - name: Go Unit Tests
